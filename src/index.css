@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Noto Sans SC", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Noto Sans SC", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-black text-white antialiased selection:bg-cyan-500/30 font-sans font-light;
+  }
+}
+
+@layer utilities {
+  .tracking-widest-xl {
+    letter-spacing: 0.2em;
+  }
+  
+  .glow-spotlight {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glow-spotlight::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(600px circle at var(--x) var(--y), rgba(255, 255, 255, 0.06), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .glow-spotlight:hover::after {
+    opacity: 1;
+  }
+}
