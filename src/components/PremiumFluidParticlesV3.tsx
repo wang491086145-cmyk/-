@@ -486,7 +486,21 @@ const PremiumFluidParticlesV3: React.FC = () => {
     let isFBO1 = true;
     const clock = new THREE.Clock();
 
+    let isVisible = true;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvasRef.current);
+
     const animate = () => {
+      if (!isVisible) {
+        requestAnimationFrame(animate);
+        return;
+      }
+
       const t = clock.getElapsedTime();
 
       mouse.x += (targetMouse.x - mouse.x) * 0.05;
@@ -535,6 +549,7 @@ const PremiumFluidParticlesV3: React.FC = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationId);
+      observer.disconnect();
       
       renderer.dispose();
       composer.dispose();
